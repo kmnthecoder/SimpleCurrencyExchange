@@ -1,10 +1,12 @@
 package Adapters;
 
 import android.content.Context;
-import android.text.Layout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,14 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lotex.android.currencyexchange.R;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+
+import Models.CurrencyModel;
 
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder> {
 
-    private final LinkedList<String> mCurrencyList;
+    private final ArrayList<CurrencyModel> mCurrencyList;
     private LayoutInflater mInflater;
 
-    public CurrencyAdapter(Context context, LinkedList<String> mCurrencyList) {
+    public CurrencyAdapter(Context context, ArrayList<CurrencyModel> mCurrencyList) {
         mInflater = LayoutInflater.from(context);
         this.mCurrencyList = mCurrencyList;
     }
@@ -32,9 +36,32 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CurrencyViewHolder holder, int position) {
-        String mCurrent = mCurrencyList.get(position);
-        holder.currencyItemView.setText(mCurrent);
+    public void onBindViewHolder(@NonNull final CurrencyViewHolder holder, int position) {
+        final CurrencyModel mCurrent = mCurrencyList.get(position);
+
+        // Set hardcoded currency codes
+        holder.fromCode.setText("To: " + mCurrent.getFromCurrencyCode());
+        holder.toCode.setText("From: " + mCurrent.getToCurrencyCode());
+
+        holder.numToConvert.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // convert to hardcoded currency immediately
+                // TO DO: research how the different override methods work
+                mCurrent.setFromCurrencyVal(Double.parseDouble(holder.numToConvert.getText().toString()));
+                holder.converted.setText(Double.toString(mCurrent.convertCurrency()));
+            }
+        });
     }
 
     @Override
@@ -44,13 +71,19 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder {
 
-        public final TextView currencyItemView;
-        final CurrencyAdapter mAdapter;
+        private final TextView fromCode, toCode, converted;
+        private final CurrencyAdapter mAdapter;
+        private final EditText numToConvert;
 
-        public CurrencyViewHolder(View itemView, CurrencyAdapter adapter) {
+        public CurrencyViewHolder(final View itemView, CurrencyAdapter adapter) {
             super(itemView);
-            currencyItemView = itemView.findViewById(R.id.word);
+            toCode = itemView.findViewById(R.id.tv_to_currency_code);
+            fromCode = itemView.findViewById(R.id.tv_from_currency_code);
+            converted = itemView.findViewById(R.id.tv_converted_currency);
+            numToConvert = itemView.findViewById(R.id.et_convert_amount);
             this.mAdapter = adapter;
+
+
         }
 
     }
