@@ -39,20 +39,15 @@ public class MainActivity extends AppCompatActivity {
                 17360.58, "CAD", "VND"));
 
         mCurrencyList.add(new CurrencyModel(0.0, 0.0,
-                17360.58, "CAD", "VND"));
-
-        mCurrencyList.add(new CurrencyModel(0.0, 0.0,
                 80.5959, "CAD", "JPY"));
 
         mCurrencyList.add(new CurrencyModel(0.0, 0.0,
                 5.21321, "CAD", "CNY"));
 
-
-
-
         // Put initial data into the word list.
         for (int i = 0; i < 20; i++) {
-            mCurrencyList.add(new CurrencyModel(i, i, i, "toCode " + i, "fromCode " + i));
+            mCurrencyList.add(new CurrencyModel(i, i, i, "toCode " + i,
+                    "fromCode " + i));
         }
 
 

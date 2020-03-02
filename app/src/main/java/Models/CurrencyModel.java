@@ -1,5 +1,8 @@
 package Models;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class CurrencyModel {
 
     private double mFromCurrencyVal;
@@ -18,7 +21,7 @@ public class CurrencyModel {
     }
 
     public double convertCurrency() {
-        return mFromCurrencyVal * mExchangeRate;
+        return round(mFromCurrencyVal * mExchangeRate, 2);
     }
 
     public double getFromCurrencyVal() {
@@ -59,5 +62,13 @@ public class CurrencyModel {
 
     public void setFromCurrencyCode(String mFromCurrencyCode) {
         this.mFromCurrencyCode = mFromCurrencyCode;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
