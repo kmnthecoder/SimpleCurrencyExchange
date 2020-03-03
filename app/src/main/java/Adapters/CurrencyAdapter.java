@@ -3,7 +3,6 @@ package Adapters;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +44,10 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
 
         // Set hardcoded currency codes
-        holder.fromCode.setText("To: " + mCurrent.getFromCurrencyCode());
-        holder.toCode.setText("From: " + mCurrent.getToCurrencyCode());
-        holder.converted.setText(String.format("%.0f", mCurrent.getToCurrencyVal()));
+        holder.currencyCode.setText(mCurrent.getCurrencyCode());
+        holder.currencyName.setText(mCurrent.getCurrencyName());
+        holder.converted.setText(mCurrent.getCurrencySign() +
+                String.format("%.0f", mCurrent.getCurrencyVal()));
     }
 
     @Override
@@ -57,16 +57,15 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView fromCode, toCode, converted;
+        private final TextView currencyCode, currencyName, converted;
         private final CurrencyAdapter mAdapter;
         private final EditText numToConvert;
         private MyCustomEditTextListener myCustomEditTextListener;
 
-
         public CurrencyViewHolder(final View itemView, CurrencyAdapter adapter) {
             super(itemView);
-            toCode = itemView.findViewById(R.id.tv_to_currency_code);
-            fromCode = itemView.findViewById(R.id.tv_from_currency_code);
+            currencyName = itemView.findViewById(R.id.tv_currency_name);
+            currencyCode = itemView.findViewById(R.id.tv_currency_code);
             converted = itemView.findViewById(R.id.tv_converted_currency);
             numToConvert = itemView.findViewById(R.id.et_convert_amount);
 
@@ -104,6 +103,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         @Override
         public void afterTextChanged(Editable s) {
 
+            /*
+
             if (!s.toString().equals("")) {
                 mCurrencyList.get(position).setFromCurrencyVal(Double.parseDouble(s.toString()));
                 mCurrencyList.get(position).setToCurrencyVal(mCurrencyList.get(position).convertCurrency());
@@ -112,6 +113,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 mCurrencyList.get(position).setFromCurrencyVal(0.0);
                 converted.setText("0");
             }
+
+             */
 
 
 

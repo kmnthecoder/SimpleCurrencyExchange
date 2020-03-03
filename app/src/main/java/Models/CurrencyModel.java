@@ -1,43 +1,48 @@
 package Models;
 
+import android.widget.ImageView;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class CurrencyModel {
 
-    private double mFromCurrencyVal;
-    private double mToCurrencyVal;
-    private double mExchangeRate;
-    private String mToCurrencyCode;
-    private String mFromCurrencyCode;
+    private String mCurrencyName;
+    private String mCurrencyCode;
+    private String mCurrencySign;
+    private double mCurrencyVal;
 
-    public CurrencyModel(double mFromCurrencyVal, double mToCurrencyVal, double mExchangeRate,
-                         String mFromCurrencyCode, String mToCurrencyCode) {
-        this.mFromCurrencyVal = mFromCurrencyVal;
-        this.mToCurrencyVal = mToCurrencyVal;
+    private double mExchangeRate;
+
+    private ImageView mFlag;
+
+    public CurrencyModel(double mCurrencyVal, double mExchangeRate,
+                         String mCurrencyCode, String mCurrencyName) {
+        this.mCurrencyVal = mCurrencyVal;
         this.mExchangeRate = mExchangeRate;
-        this.mFromCurrencyCode = mFromCurrencyCode;
-        this.mToCurrencyCode = mToCurrencyCode;
+        this.mCurrencyCode = mCurrencyCode;
+        this.mCurrencyName = mCurrencyName;
+    }
+
+    public CurrencyModel(double mCurrencyVal, double mExchangeRate,
+                         String mCurrencyCode, String mCurrencyName, String mCurrencySign) {
+        this.mCurrencyVal = mCurrencyVal;
+        this.mExchangeRate = mExchangeRate;
+        this.mCurrencyCode = mCurrencyCode;
+        this.mCurrencyName = mCurrencyName;
+        this.mCurrencySign = mCurrencySign;
     }
 
     public double convertCurrency() {
-        return round(mFromCurrencyVal * mExchangeRate, 2);
+        return round(mCurrencyVal * mExchangeRate, 2);
     }
 
-    public double getFromCurrencyVal() {
-        return mFromCurrencyVal;
+    public double getCurrencyVal() {
+        return mCurrencyVal;
     }
 
-    public void setFromCurrencyVal(double mFromCurrencyVal) {
-        this.mFromCurrencyVal = mFromCurrencyVal;
-    }
-
-    public double getToCurrencyVal() {
-        return mToCurrencyVal;
-    }
-
-    public void setToCurrencyVal(double mToCurrencyVal) {
-        this.mToCurrencyVal = mToCurrencyVal;
+    public void setCurrencyVal(double mFromCurrencyVal) {
+        this.mCurrencyVal = mFromCurrencyVal;
     }
 
     public double getExchangeRate() {
@@ -48,20 +53,20 @@ public class CurrencyModel {
         this.mExchangeRate = mExchangeRate;
     }
 
-    public String getToCurrencyCode() {
-        return mToCurrencyCode;
-    }
-
-    public void setToCurrencyCode(String mToCurrencyCode) {
-        this.mToCurrencyCode = mToCurrencyCode;
-    }
-
-    public String getFromCurrencyCode() {
-        return mFromCurrencyCode;
+    public String getCurrencyCode() {
+        return mCurrencyCode;
     }
 
     public void setFromCurrencyCode(String mFromCurrencyCode) {
-        this.mFromCurrencyCode = mFromCurrencyCode;
+        this.mCurrencyCode = mFromCurrencyCode;
+    }
+
+    public String getCurrencyName() {
+        return mCurrencyName;
+    }
+
+    public void setCurrencyName(String mCurrencyName) {
+        this.mCurrencyName = mCurrencyName;
     }
 
     public static double round(double value, int places) {
@@ -70,5 +75,13 @@ public class CurrencyModel {
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public String getCurrencySign() {
+        return mCurrencySign;
+    }
+
+    public void setCurrencySign(String mCurrencySign) {
+        this.mCurrencySign = mCurrencySign;
     }
 }

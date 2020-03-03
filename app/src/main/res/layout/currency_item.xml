@@ -1,49 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_height="75dp"
+    android:layout_margin="4dp"
     card_view:cardBackgroundColor="#E6E6E6"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="8dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_from_currency_code"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_currency_code"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="cCode "
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="fromCode " />
+            android:layout_marginTop="4dp"
+            card_view:layout_constraintStart_toEndOf="@+id/cardView"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_to_currency_code"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_currency_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:text="toCode " />
+            android:text="cName "
+            android:textSize="16sp"
+            android:textStyle="normal"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/cardView"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_currency_code" />
 
         <EditText
             android:id="@+id/et_convert_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            card_view:layout_constraintBottom_toTopOf="@+id/tv_converted_currency"
+            card_view:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/tv_converted_currency"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="convertedCurrency"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="convertedCurrency" />
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent" />
 
-    </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            card_view:cardBackgroundColor="@android:color/transparent"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="0dp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:scaleType="fitXY"
+                card_view:srcCompat="@mipmap/ic_launcher_round" />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.cardview.widget.CardView>
