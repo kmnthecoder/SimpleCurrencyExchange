@@ -1,14 +1,21 @@
 package Activities;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lotex.android.currencyexchange.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import Adapters.CurrencyAdapter;
@@ -20,11 +27,17 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private CurrencyAdapter mAdapter;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
+
+
 
         mCurrencyList.add(new CurrencyModel(0.0, 0.745636,
                 "CAD", "Canadian Dollar", "$"));
@@ -62,6 +75,41 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         // Give RecyclerView default layout manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Add gestures to reorder items, and swipe to delete
+        ItemTouchHelper helper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+                        ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView,
+                                          @NonNull RecyclerView.ViewHolder viewHolder,
+                                          @NonNull RecyclerView.ViewHolder target) {
+                        int from = viewHolder.getAdapterPosition();
+                        int to = target.getAdapterPosition();
+                        Collections.swap(mCurrencyList, from, to);
+                        mAdapter.notifyItemMoved(from, to);
+                        return true;
+                    }
+
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        mCurrencyList.remove(viewHolder.getAdapterPosition());
+                        mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+
+                    }
+                });
+
+        helper.attachToRecyclerView(mRecyclerView);
+
+        fab = findViewById(R.id.fab_add);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "ccp", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }
