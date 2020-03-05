@@ -1,4 +1,4 @@
-package Activities;
+package activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -16,29 +17,54 @@ import com.lotex.android.currencyexchange.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 
-import Adapters.CurrencyAdapter;
-import Models.CurrencyModel;
+import adapters.CurrencyAdapter;
+import models.CurrencyModel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final ArrayList<CurrencyModel> mCurrencyList = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     private CurrencyAdapter mAdapter;
     private FloatingActionButton fab;
+    private static MainActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Change action bar layout
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);
 
+        mContext = this;
 
+        initDummyData();
+        viewAttach();
+        recyclerViewSetup();
+        listTouchHelper();
+    }
 
+    public void viewAttach() {
+        mRecyclerView = findViewById(R.id.recyclerview);
+        fab = findViewById(R.id.fab_add);
+        fab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_add:
+                Toast.makeText(MainActivity.this, "ccp", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void initDummyData() {
         mCurrencyList.add(new CurrencyModel(0.0, 0.745636,
                 "CAD", "Canadian Dollar", "$"));
 
@@ -65,17 +91,9 @@ public class MainActivity extends AppCompatActivity {
             mCurrencyList.add(new CurrencyModel(0.0, i, "currencyCode " + i,
                     "currencyName " + i));
         }
+    }
 
-
-        // Get handle to RecyclerView
-        mRecyclerView = findViewById(R.id.recyclerview);
-        // Create adapter and supply data for display
-        mAdapter = new CurrencyAdapter(this, mCurrencyList);
-        // Connect adapter with RecyclerView
-        mRecyclerView.setAdapter(mAdapter);
-        // Give RecyclerView default layout manager
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+    public void listTouchHelper() {
         // Add gestures to reorder items, and swipe to delete
         ItemTouchHelper helper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
@@ -100,16 +118,19 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         helper.attachToRecyclerView(mRecyclerView);
-
-        fab = findViewById(R.id.fab_add);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "ccp", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
-}
+    public void recyclerViewSetup() {
+        // Create adapter and supply data for display
+        mAdapter = new CurrencyAdapter(this, mCurrencyList);
+        // Connect adapter with RecyclerView
+        mRecyclerView.setAdapter(mAdapter);
+        // Give RecyclerView default layout manager
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    public static MainActivity getContext() {
+        return mContext;
+    }
+
+} // end of class

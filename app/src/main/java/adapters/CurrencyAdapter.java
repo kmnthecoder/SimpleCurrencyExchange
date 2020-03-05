@@ -1,32 +1,47 @@
-package Adapters;
+package adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lotex.android.currencyexchange.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-import Models.CurrencyModel;
+import activities.MainActivity;
+import models.CurrencyModel;
 
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder> {
 
     private final ArrayList<CurrencyModel> mCurrencyList;
     private LayoutInflater mInflater;
+    private RecyclerView mRecyclerView;
     private static final String LOG_TAG = "CurrencyAdapter";
 
     public CurrencyAdapter(Context context, ArrayList<CurrencyModel> mCurrencyList) {
         mInflater = LayoutInflater.from(context);
         this.mCurrencyList = mCurrencyList;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
     }
 
     @NonNull
@@ -48,6 +63,21 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         holder.currencyName.setText(mCurrent.getCurrencyName());
         holder.converted.setText(mCurrent.getCurrencySign() +
                 String.format("%.0f", mCurrent.getCurrencyVal()));
+
+        if (position == 0) {
+            holder.currencyItem.setCardBackgroundColor(Color.BLUE);
+            holder.currencyCode.setTextColor(Color.WHITE);
+            holder.currencyName.setTextColor(Color.WHITE);
+            holder.converted.setTextColor(Color.WHITE);
+            holder.numToConvert.setTextColor(Color.WHITE);
+        } else {
+            holder.currencyItem.setCardBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
+            holder.currencyCode.setTextColor(Color.BLACK);
+            holder.currencyName.setTextColor(Color.BLACK);
+            holder.converted.setTextColor(Color.BLACK);
+            holder.numToConvert.setTextColor(Color.BLACK);
+        }
+
     }
 
     @Override
@@ -55,25 +85,60 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         return mCurrencyList.size();
     }
 
-    class CurrencyViewHolder extends RecyclerView.ViewHolder {
+    class CurrencyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView currencyCode, currencyName, converted;
+        private final CardView currencyItem;
         private final CurrencyAdapter mAdapter;
         private final EditText numToConvert;
         private MyCustomEditTextListener myCustomEditTextListener;
 
         public CurrencyViewHolder(final View itemView, CurrencyAdapter adapter) {
             super(itemView);
+            itemView.setOnClickListener(this);
+
             currencyName = itemView.findViewById(R.id.tv_currency_name);
             currencyCode = itemView.findViewById(R.id.tv_currency_code);
             converted = itemView.findViewById(R.id.tv_converted_currency);
             numToConvert = itemView.findViewById(R.id.et_convert_amount);
+            currencyItem = itemView.findViewById(R.id.cv_currency_item);
 
             this.myCustomEditTextListener = new MyCustomEditTextListener(converted);
             this.numToConvert.addTextChangedListener(myCustomEditTextListener);
 
             this.mAdapter = adapter;
 
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            //Toast.makeText(MainActivity.getContext(), "position: " + getLayoutPosition(), Toast.LENGTH_SHORT).show();
+
+            mRecyclerView.smoothScrollToPosition(0);//crollToPosition(0);
+            //mRecyclerView.getChildAt(0).setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
+            //mRecyclerView.getLayoutManager().findViewByPosition(0).setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
+            int position = getLayoutPosition();
+
+            //Log.d(LOG_TAG, "" + mRecyclerView.getChildAt(0).findViewById(R.id.tv_currency_name));
+
+            //mRecyclerView.getChildAt(position).setBackgroundColor(Color.BLUE);
+
+            Collections.swap(mCurrencyList, position, 0);
+            //mAdapter.notifyItemMoved(position, 0);
+            mAdapter.notifyDataSetChanged();
+            //mAdapter.notify
+
+            //currencyItem.setCardBackgroundColor(Color.BLUE);
+            //mRecyclerView.getLayoutManager().findViewByPosition(1).setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
+
+
+
+
+
+
+            // setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(),
+            // R.color.currency_background_default));
         }
     }
 
@@ -115,7 +180,6 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             }
 
              */
-
 
 
         }
