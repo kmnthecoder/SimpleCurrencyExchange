@@ -96,26 +96,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void listTouchHelper() {
         // Add gestures to reorder items, and swipe to delete
         ItemTouchHelper helper = new ItemTouchHelper(
-                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
-                        ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN | ItemTouchHelper.UP,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                     @Override
                     public boolean onMove(@NonNull RecyclerView recyclerView,
                                           @NonNull RecyclerView.ViewHolder viewHolder,
                                           @NonNull RecyclerView.ViewHolder target) {
                         int from = viewHolder.getAdapterPosition();
                         int to = target.getAdapterPosition();
-                        Collections.swap(mCurrencyList, from, to);
-                        mAdapter.notifyItemMoved(from, to);
+
+                        if (to != 0) {
+                            Collections.swap(mCurrencyList, from, to);
+                            mAdapter.notifyItemMoved(from, to);
+                        }
+
                         return true;
                     }
-
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                         mCurrencyList.remove(viewHolder.getAdapterPosition());
                         mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                    }
+                    @Override
+                    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+
+                        if (viewHolder.getAdapterPosition() == 0) {
+                            return 0;
+                        }
+
+                        return super.getMovementFlags(recyclerView, viewHolder);
 
                     }
                 });
+
+
 
         helper.attachToRecyclerView(mRecyclerView);
     }

@@ -63,6 +63,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         holder.currencyName.setText(mCurrent.getCurrencyName());
         holder.converted.setText(mCurrent.getCurrencySign() +
                 String.format("%.0f", mCurrent.getCurrencyVal()));
+        holder.currencySign.setText(mCurrent.getCurrencySign());
 
         if (position == 0) {
             holder.currencyItem.setCardBackgroundColor(Color.BLUE);
@@ -70,12 +71,21 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             holder.currencyName.setTextColor(Color.WHITE);
             holder.converted.setTextColor(Color.WHITE);
             holder.numToConvert.setTextColor(Color.WHITE);
+            holder.converted.setVisibility(View.GONE);
+            holder.numToConvert.setVisibility(View.VISIBLE);
+            holder.currencyCompare.setVisibility(View.GONE);
+            holder.currencySign.setVisibility(View.VISIBLE);
+
         } else {
             holder.currencyItem.setCardBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
             holder.currencyCode.setTextColor(Color.BLACK);
             holder.currencyName.setTextColor(Color.BLACK);
             holder.converted.setTextColor(Color.BLACK);
             holder.numToConvert.setTextColor(Color.BLACK);
+            holder.numToConvert.setVisibility(View.GONE);
+            holder.currencyCompare.setVisibility(View.VISIBLE);
+            holder.currencySign.setVisibility(View.GONE);
+
         }
 
     }
@@ -87,7 +97,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final TextView currencyCode, currencyName, converted;
+        private final TextView currencyCode, currencyName, converted, currencyCompare, currencySign;
         private final CardView currencyItem;
         private final CurrencyAdapter mAdapter;
         private final EditText numToConvert;
@@ -102,6 +112,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             converted = itemView.findViewById(R.id.tv_converted_currency);
             numToConvert = itemView.findViewById(R.id.et_convert_amount);
             currencyItem = itemView.findViewById(R.id.cv_currency_item);
+            currencyCompare = itemView.findViewById(R.id.tv_currency_compare);
+            currencySign = itemView.findViewById(R.id.tv_currency_sign);
 
             this.myCustomEditTextListener = new MyCustomEditTextListener(converted);
             this.numToConvert.addTextChangedListener(myCustomEditTextListener);
@@ -114,31 +126,11 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         public void onClick(View v) {
 
             //Toast.makeText(MainActivity.getContext(), "position: " + getLayoutPosition(), Toast.LENGTH_SHORT).show();
-
-            mRecyclerView.smoothScrollToPosition(0);//crollToPosition(0);
-            //mRecyclerView.getChildAt(0).setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
-            //mRecyclerView.getLayoutManager().findViewByPosition(0).setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
+            mRecyclerView.smoothScrollToPosition(0);
             int position = getLayoutPosition();
-
-            //Log.d(LOG_TAG, "" + mRecyclerView.getChildAt(0).findViewById(R.id.tv_currency_name));
-
-            //mRecyclerView.getChildAt(position).setBackgroundColor(Color.BLUE);
-
             Collections.swap(mCurrencyList, position, 0);
-            //mAdapter.notifyItemMoved(position, 0);
-            mAdapter.notifyDataSetChanged();
-            //mAdapter.notify
+            mAdapter.notifyItemRangeChanged(0, position + 1);
 
-            //currencyItem.setCardBackgroundColor(Color.BLUE);
-            //mRecyclerView.getLayoutManager().findViewByPosition(1).setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
-
-
-
-
-
-
-            // setBackgroundColor(ContextCompat.getColor(MainActivity.getContext(),
-            // R.color.currency_background_default));
         }
     }
 
