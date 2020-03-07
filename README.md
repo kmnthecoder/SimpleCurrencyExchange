@@ -1,7 +1,6 @@
 # CurrencyExchange
 
-License
--------
+# License
 
     Copyright 2020 Kevin Nguyen
 
