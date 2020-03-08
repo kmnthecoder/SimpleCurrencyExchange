@@ -40,7 +40,6 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-
         mRecyclerView = recyclerView;
     }
 
@@ -65,6 +64,16 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 String.format("%.0f", mCurrent.getCurrencyVal()));
         holder.currencySign.setText(mCurrent.getCurrencySign());
 
+        changeCurrencyLook(holder, position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mCurrencyList.size();
+    }
+
+    // Changes currency look depending on if it is home currency or not
+    public void changeCurrencyLook(CurrencyViewHolder holder, int position) {
         if (position == 0) {
             holder.currencyItem.setCardBackgroundColor(Color.BLUE);
             holder.currencyCode.setTextColor(Color.WHITE);
@@ -72,8 +81,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             holder.converted.setTextColor(Color.WHITE);
             holder.numToConvert.setTextColor(Color.WHITE);
             holder.converted.setVisibility(View.GONE);
-            holder.numToConvert.setVisibility(View.VISIBLE);
             holder.currencyCompare.setVisibility(View.GONE);
+            holder.numToConvert.setVisibility(View.VISIBLE);
             holder.currencySign.setVisibility(View.VISIBLE);
 
         } else {
@@ -83,16 +92,9 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             holder.converted.setTextColor(Color.BLACK);
             holder.numToConvert.setTextColor(Color.BLACK);
             holder.numToConvert.setVisibility(View.GONE);
-            holder.currencyCompare.setVisibility(View.VISIBLE);
             holder.currencySign.setVisibility(View.GONE);
-
+            holder.currencyCompare.setVisibility(View.VISIBLE);
         }
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mCurrencyList.size();
     }
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -117,20 +119,15 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
             this.myCustomEditTextListener = new MyCustomEditTextListener(converted);
             this.numToConvert.addTextChangedListener(myCustomEditTextListener);
-
             this.mAdapter = adapter;
-
         }
 
         @Override
-        public void onClick(View v) {
-
-            //Toast.makeText(MainActivity.getContext(), "position: " + getLayoutPosition(), Toast.LENGTH_SHORT).show();
+        public void onClick(View v) { // Change home currency if clicked on
             mRecyclerView.smoothScrollToPosition(0);
             int position = getLayoutPosition();
             Collections.swap(mCurrencyList, position, 0);
             mAdapter.notifyItemRangeChanged(0, position + 1);
-
         }
     }
 
@@ -149,19 +146,15 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-
             /*
-
             if (!s.toString().equals("")) {
                 mCurrencyList.get(position).setFromCurrencyVal(Double.parseDouble(s.toString()));
                 mCurrencyList.get(position).setToCurrencyVal(mCurrencyList.get(position).convertCurrency());
@@ -170,12 +163,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 mCurrencyList.get(position).setFromCurrencyVal(0.0);
                 converted.setText("0");
             }
-
              */
-
-
         }
-
     }
 
 } // end of class

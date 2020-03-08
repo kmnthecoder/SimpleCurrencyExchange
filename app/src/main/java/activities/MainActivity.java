@@ -3,13 +3,22 @@ package activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,6 +26,7 @@ import com.lotex.android.currencyexchange.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 import adapters.CurrencyAdapter;
 import models.CurrencyModel;
@@ -34,12 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this;
 
         // Change action bar layout
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);
-
-        mContext = this;
 
         initDummyData();
         viewAttach();
@@ -104,33 +113,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                           @NonNull RecyclerView.ViewHolder target) {
                         int from = viewHolder.getAdapterPosition();
                         int to = target.getAdapterPosition();
-
                         if (to != 0) {
                             Collections.swap(mCurrencyList, from, to);
                             mAdapter.notifyItemMoved(from, to);
                         }
-
                         return true;
                     }
+
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                         mCurrencyList.remove(viewHolder.getAdapterPosition());
                         mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                     }
+
                     @Override
                     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-
-                        if (viewHolder.getAdapterPosition() == 0) {
+                        if (viewHolder.getAdapterPosition() == 0) { // disable swiping the home currency
                             return 0;
                         }
-
                         return super.getMovementFlags(recyclerView, viewHolder);
-
                     }
                 });
-
-
-
         helper.attachToRecyclerView(mRecyclerView);
     }
 

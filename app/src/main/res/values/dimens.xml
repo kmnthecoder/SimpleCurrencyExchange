@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tv_main">24sp</dimen>
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="std_margin">8dp</dimen>
+    <dimen name="flag_border_width">2dp</dimen>
+    <dimen name="cv_height">72dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>
