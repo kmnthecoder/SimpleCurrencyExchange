@@ -4,15 +4,14 @@ import android.widget.ImageView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 public class CurrencyModel {
 
-    private String mCurrencyName;
-    private String mCurrencyCode;
-    private String mCurrencySign;
+    private String mCurrencyName, mCurrencyCode, mCurrencySign;
     private double mCurrencyVal;
-
-    private double mExchangeRate;
+    private double mExchangeRate; // toCurrency
+    private double amount = 0.0;
 
     private ImageView mFlag;
 
@@ -83,5 +82,29 @@ public class CurrencyModel {
 
     public void setCurrencySign(String mCurrencySign) {
         this.mCurrencySign = mCurrencySign;
+    }
+
+    public double convertAmount(String homeCode, double homeValue, double amount) {
+        if (Objects.equals(homeCode, "EUR")) {
+            return round(mExchangeRate * amount, 2);
+        } else {
+            return round(mExchangeRate / homeValue * amount, 2);
+        }
+    }
+
+    public double compareAmount(String homeCode, double homeValue) {
+        if (Objects.equals(homeCode, "EUR")) {
+            return round(1 / mExchangeRate, 2);
+        } else {
+            return round(homeValue/mExchangeRate, 2);
+        }
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }

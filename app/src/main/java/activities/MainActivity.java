@@ -74,31 +74,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initDummyData() {
-        mCurrencyList.add(new CurrencyModel(0.0, 0.745636,
+        mCurrencyList.add(new CurrencyModel(0.0, 1.537144,
                 "CAD", "Canadian Dollar", "$"));
 
-        mCurrencyList.add(new CurrencyModel(0.0, 0.745636,
+        mCurrencyList.add(new CurrencyModel(0.0, 1.134985,
                 "USD", "US Dollar", "$"));
 
-        mCurrencyList.add(new CurrencyModel(0.0, 0.676187,
+        mCurrencyList.add(new CurrencyModel(0.0, 1,
                 "EUR", "Euro", "€"));
 
-        mCurrencyList.add(new CurrencyModel(0.0, 14.6246,
+        mCurrencyList.add(new CurrencyModel(0.0, 23.355529,
                 "MXN", "Mexican Peso", "$"));
 
-        mCurrencyList.add(new CurrencyModel(0.0, 17360.58,
+        mCurrencyList.add(new CurrencyModel(0.0, 26337.8948,
                 "VND", "Vietnamese Dong", "₫"));
 
-        mCurrencyList.add(new CurrencyModel(0.0, 80.5959,
+        mCurrencyList.add(new CurrencyModel(0.0, 118.324426,
                 "JPY", "Japanese Yen", "¥"));
 
-        mCurrencyList.add(new CurrencyModel(0.0, 5.21321,
+        mCurrencyList.add(new CurrencyModel(0.0, 7.867599,
                 "CNY", "Chinese Yuan", "¥"));
 
         // Put initial data into the word list.
         for (int i = 0; i < 20; i++) {
-            mCurrencyList.add(new CurrencyModel(0.0, i, "currencyCode " + i,
-                    "currencyName " + i));
+            mCurrencyList.add(new CurrencyModel(0.0, 0.0, "cCode " + i,
+                    "cName " + i, "$"));
         }
     }
 

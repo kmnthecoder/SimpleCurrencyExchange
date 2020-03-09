@@ -51,6 +51,16 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     }
 
     @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull final CurrencyViewHolder holder, int position) {
 
         final CurrencyModel mCurrent = mCurrencyList.get(position);
@@ -60,9 +70,17 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         // Set hardcoded currency codes
         holder.currencyCode.setText(mCurrent.getCurrencyCode());
         holder.currencyName.setText(mCurrent.getCurrencyName());
+
+        //holder.numToConvert.setText(Double.toString(mCurrent.getAmount()));
+
+
         holder.converted.setText(mCurrent.getCurrencySign() +
-                String.format("%.0f", mCurrent.getCurrencyVal()));
+                String.format("%.2f", mCurrent.getCurrencyVal()));
+
+
         holder.currencySign.setText(mCurrent.getCurrencySign());
+        holder.currencyCompare.setText(1 + " " + mCurrent.getCurrencyCode() + " = " + 69 +
+                " " + mCurrencyList.get(0).getCurrencyCode());
 
         changeCurrencyLook(holder, position);
     }
@@ -124,10 +142,46 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
         @Override
         public void onClick(View v) { // Change home currency if clicked on
-            mRecyclerView.smoothScrollToPosition(0);
+
             int position = getLayoutPosition();
-            Collections.swap(mCurrencyList, position, 0);
-            mAdapter.notifyItemRangeChanged(0, position + 1);
+
+            if (position != 0) {
+
+/*
+                mCurrencyList.get(0).setCurrencyVal(mCurrencyList.get(0).convertAmount(
+                        mCurrencyList.get(position).getCurrencyCode(),
+                        mCurrencyList.get(position).getExchangeRate(),
+                        mCurrencyList.get(position).getCurrencyVal()));
+
+ */
+
+
+
+
+                mRecyclerView.smoothScrollToPosition(0);
+                Collections.swap(mCurrencyList, position, 0);
+
+                EditText et = mRecyclerView.getChildAt(0).findViewById(R.id.et_convert_amount);
+                et.setText(Double.toString(mCurrencyList.get(0).getCurrencyVal()));
+
+
+                mAdapter.notifyItemRangeChanged(0, mAdapter.mCurrencyList.size());
+                //mCurrencyList.get(position).setCurrencyVal(mCurrencyList);
+                //mAdapter.notifyDataSetChanged();
+
+
+            }
+
+
+
+
+
+
+
+
+            //EditText et = mRecyclerView.getLayoutManager().findViewByPosition(0).findViewById(R.id.et_convert_amount);
+            //itemView.setText(null);
+
         }
     }
 
@@ -135,6 +189,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
         private int position;
         private TextView converted;
+        private String homeCode;
+        private double homeValue, amount;
 
         private MyCustomEditTextListener(TextView converted) {
             this.converted = converted;
@@ -154,16 +210,39 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
         @Override
         public void afterTextChanged(Editable s) {
-            /*
+
+            homeCode = mCurrencyList.get(0).getCurrencyCode();
+            homeValue = mCurrencyList.get(0).getExchangeRate();
+
+
+
+
             if (!s.toString().equals("")) {
-                mCurrencyList.get(position).setFromCurrencyVal(Double.parseDouble(s.toString()));
-                mCurrencyList.get(position).setToCurrencyVal(mCurrencyList.get(position).convertCurrency());
-                converted.setText(Double.toString(mCurrencyList.get(position).getToCurrencyVal()));
+
+                amount = Double.valueOf(s.toString());
+                mCurrencyList.get(0).setCurrencyVal(Double.valueOf(s.toString()));
+
+                for (int i = 1; i < mCurrencyList.size(); i++) {
+                    //mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount());
+                    mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount(homeCode, homeValue, amount));
+                }
+                //mCurrencyList.get()
+                //mCurrencyList.get(position).setFromCurrencyVal(Double.parseDouble(s.toString()));
+                //mCurrencyList.get(position).setToCurrencyVal(mCurrencyList.get(position).convertCurrency());
+                //converted.setText(Double.toString(mCurrencyList.get(position).getToCurrencyVal()));
             } else {
-                mCurrencyList.get(position).setFromCurrencyVal(0.0);
-                converted.setText("0");
+                //mCurrencyList.get(position).setCurrencyVal(0.0);
+                //converted.setText("0");
+
+                for (int i = 1; i < mCurrencyList.size(); i++) {
+                    //mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount());
+                    mCurrencyList.get(i).setCurrencyVal(0.0);
+                }
+
             }
-             */
+
+            mRecyclerView.getAdapter().notifyDataSetChanged();
+
         }
     }
 
