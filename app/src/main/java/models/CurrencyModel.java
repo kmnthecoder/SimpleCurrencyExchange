@@ -9,9 +9,7 @@ import java.util.Objects;
 public class CurrencyModel {
 
     private String mCurrencyName, mCurrencyCode, mCurrencySign;
-    private double mCurrencyVal;
-    private double mExchangeRate; // toCurrency
-    private double amount = 0.0;
+    private double mCurrencyVal, mExchangeRate;
 
     private ImageView mFlag;
 
@@ -30,10 +28,6 @@ public class CurrencyModel {
         this.mCurrencyCode = mCurrencyCode;
         this.mCurrencyName = mCurrencyName;
         this.mCurrencySign = mCurrencySign;
-    }
-
-    public double convertCurrency() {
-        return round(mCurrencyVal * mExchangeRate, 2);
     }
 
     public double getCurrencyVal() {
@@ -56,7 +50,7 @@ public class CurrencyModel {
         return mCurrencyCode;
     }
 
-    public void setFromCurrencyCode(String mFromCurrencyCode) {
+    public void setCurrencyCode(String mFromCurrencyCode) {
         this.mCurrencyCode = mFromCurrencyCode;
     }
 
@@ -96,15 +90,7 @@ public class CurrencyModel {
         if (Objects.equals(homeCode, "EUR")) {
             return round(1 / mExchangeRate, 2);
         } else {
-            return round(homeValue/mExchangeRate, 2);
+            return round(homeValue / mExchangeRate, 2);
         }
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 }

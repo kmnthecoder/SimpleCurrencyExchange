@@ -2,12 +2,12 @@ package adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,37 +51,18 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull final CurrencyViewHolder holder, int position) {
-
         final CurrencyModel mCurrent = mCurrencyList.get(position);
-
-        holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
-
         // Set hardcoded currency codes
         holder.currencyCode.setText(mCurrent.getCurrencyCode());
         holder.currencyName.setText(mCurrent.getCurrencyName());
-
-        //holder.numToConvert.setText(Double.toString(mCurrent.getAmount()));
-
-
         holder.converted.setText(mCurrent.getCurrencySign() +
                 String.format("%.2f", mCurrent.getCurrencyVal()));
-
-
         holder.currencySign.setText(mCurrent.getCurrencySign());
-        holder.currencyCompare.setText(1 + " " + mCurrent.getCurrencyCode() + " = " + 69 +
-                " " + mCurrencyList.get(0).getCurrencyCode());
-
+        holder.currencyCompare.setText(1 + " " + mCurrent.getCurrencyCode() + " = " +
+                String.format("%.2f", mCurrent.compareAmount(mCurrencyList.get(0).getCurrencyCode(), mCurrencyList.get(0).getExchangeRate()))
+                + " " + mCurrencyList.get(0).getCurrencyCode());
+        holder.numToConvert.setText(Double.toString(mCurrent.getCurrencyVal()));
         changeCurrencyLook(holder, position);
     }
 
@@ -102,16 +83,16 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             holder.currencyCompare.setVisibility(View.GONE);
             holder.numToConvert.setVisibility(View.VISIBLE);
             holder.currencySign.setVisibility(View.VISIBLE);
-
         } else {
             holder.currencyItem.setCardBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
             holder.currencyCode.setTextColor(Color.BLACK);
-            holder.currencyName.setTextColor(Color.BLACK);
+            holder.currencyName.setTextColor(Color.parseColor("#585858"));
             holder.converted.setTextColor(Color.BLACK);
             holder.numToConvert.setTextColor(Color.BLACK);
+            holder.converted.setVisibility(View.VISIBLE);
+            holder.currencyCompare.setVisibility(View.VISIBLE);
             holder.numToConvert.setVisibility(View.GONE);
             holder.currencySign.setVisibility(View.GONE);
-            holder.currencyCompare.setVisibility(View.VISIBLE);
         }
     }
 
@@ -121,7 +102,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         private final CardView currencyItem;
         private final CurrencyAdapter mAdapter;
         private final EditText numToConvert;
-        private MyCustomEditTextListener myCustomEditTextListener;
+        private customEditorActionListener myCustomEditorActionListener;
 
         public CurrencyViewHolder(final View itemView, CurrencyAdapter adapter) {
             super(itemView);
@@ -135,114 +116,55 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             currencyCompare = itemView.findViewById(R.id.tv_currency_compare);
             currencySign = itemView.findViewById(R.id.tv_currency_sign);
 
-            this.myCustomEditTextListener = new MyCustomEditTextListener(converted);
-            this.numToConvert.addTextChangedListener(myCustomEditTextListener);
+            this.myCustomEditorActionListener = new customEditorActionListener(numToConvert);
+            numToConvert.setOnEditorActionListener(myCustomEditorActionListener);
+
             this.mAdapter = adapter;
         }
 
         @Override
         public void onClick(View v) { // Change home currency if clicked on
-
             int position = getLayoutPosition();
-
             if (position != 0) {
-
-/*
-                mCurrencyList.get(0).setCurrencyVal(mCurrencyList.get(0).convertAmount(
-                        mCurrencyList.get(position).getCurrencyCode(),
-                        mCurrencyList.get(position).getExchangeRate(),
-                        mCurrencyList.get(position).getCurrencyVal()));
-
- */
-
-
-
-
                 mRecyclerView.smoothScrollToPosition(0);
                 Collections.swap(mCurrencyList, position, 0);
-
-                EditText et = mRecyclerView.getChildAt(0).findViewById(R.id.et_convert_amount);
-                et.setText(Double.toString(mCurrencyList.get(0).getCurrencyVal()));
-
-
                 mAdapter.notifyItemRangeChanged(0, mAdapter.mCurrencyList.size());
-                //mCurrencyList.get(position).setCurrencyVal(mCurrencyList);
-                //mAdapter.notifyDataSetChanged();
-
-
             }
-
-
-
-
-
-
-
-
-            //EditText et = mRecyclerView.getLayoutManager().findViewByPosition(0).findViewById(R.id.et_convert_amount);
-            //itemView.setText(null);
-
         }
     }
 
-    private class MyCustomEditTextListener implements TextWatcher {
+    private class customEditorActionListener implements TextView.OnEditorActionListener {
 
-        private int position;
-        private TextView converted;
         private String homeCode;
         private double homeValue, amount;
+        private EditText s;
 
-        private MyCustomEditTextListener(TextView converted) {
-            this.converted = converted;
-        }
-
-        public void updatePosition(int position) {
-            this.position = position;
+        private customEditorActionListener(EditText s) {
+            this.s = s;
         }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                homeCode = mCurrencyList.get(0).getCurrencyCode();
+                homeValue = mCurrencyList.get(0).getExchangeRate();
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            homeCode = mCurrencyList.get(0).getCurrencyCode();
-            homeValue = mCurrencyList.get(0).getExchangeRate();
-
-
-
-
-            if (!s.toString().equals("")) {
-
-                amount = Double.valueOf(s.toString());
-                mCurrencyList.get(0).setCurrencyVal(Double.valueOf(s.toString()));
-
-                for (int i = 1; i < mCurrencyList.size(); i++) {
-                    //mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount());
-                    mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount(homeCode, homeValue, amount));
-                }
-                //mCurrencyList.get()
-                //mCurrencyList.get(position).setFromCurrencyVal(Double.parseDouble(s.toString()));
-                //mCurrencyList.get(position).setToCurrencyVal(mCurrencyList.get(position).convertCurrency());
-                //converted.setText(Double.toString(mCurrencyList.get(position).getToCurrencyVal()));
-            } else {
-                //mCurrencyList.get(position).setCurrencyVal(0.0);
-                //converted.setText("0");
-
-                for (int i = 1; i < mCurrencyList.size(); i++) {
-                    //mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount());
-                    mCurrencyList.get(i).setCurrencyVal(0.0);
+                if (!s.getText().toString().equals("")) {
+                    amount = Double.valueOf(s.getText().toString());
+                    mCurrencyList.get(0).setCurrencyVal(Double.valueOf(s.getText().toString()));
+                    for (int i = 1; i < mCurrencyList.size(); i++) {
+                        mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount(homeCode, homeValue, amount));
+                    }
+                } else {
+                    for (int i = 1; i < mCurrencyList.size(); i++) {
+                        mCurrencyList.get(i).setCurrencyVal(0.0);
+                    }
                 }
 
+                mRecyclerView.getAdapter().notifyDataSetChanged();
             }
-
-            mRecyclerView.getAdapter().notifyDataSetChanged();
-
+            return handled;
         }
     }
 

@@ -96,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 "CNY", "Chinese Yuan", "¥"));
 
         // Put initial data into the word list.
-        for (int i = 0; i < 20; i++) {
-            mCurrencyList.add(new CurrencyModel(0.0, 0.0, "cCode " + i,
+        for (int i = 1; i < 20; i++) {
+            mCurrencyList.add(new CurrencyModel(0.0, Double.valueOf(i), "cCode " + i,
                     "cName " + i, "$"));
         }
     }
@@ -138,11 +138,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void recyclerViewSetup() {
-        // Create adapter and supply data for display
         mAdapter = new CurrencyAdapter(this, mCurrencyList);
-        // Connect adapter with RecyclerView
         mRecyclerView.setAdapter(mAdapter);
-        // Give RecyclerView default layout manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
