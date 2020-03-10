@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import activities.MainActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 import models.CurrencyModel;
 
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder> {
@@ -63,6 +65,10 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 String.format("%.2f", mCurrent.compareAmount(mCurrencyList.get(0).getCurrencyCode(), mCurrencyList.get(0).getExchangeRate()))
                 + " " + mCurrencyList.get(0).getCurrencyCode());
         holder.numToConvert.setText(Double.toString(mCurrent.getCurrencyVal()));
+
+        holder.currencyFlag.setImageResource(R.drawable.cad_flag);
+        //holder.currencyFlag.setImageResource();
+
         changeCurrencyLook(holder, position);
     }
 
@@ -102,6 +108,10 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         private final CardView currencyItem;
         private final CurrencyAdapter mAdapter;
         private final EditText numToConvert;
+
+        //private final CircleImageView currencyFlag;
+        private final ImageView currencyFlag;
+
         private customEditorActionListener myCustomEditorActionListener;
 
         public CurrencyViewHolder(final View itemView, CurrencyAdapter adapter) {
@@ -115,6 +125,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             currencyItem = itemView.findViewById(R.id.cv_currency_item);
             currencyCompare = itemView.findViewById(R.id.tv_currency_compare);
             currencySign = itemView.findViewById(R.id.tv_currency_sign);
+            currencyFlag = itemView.findViewById(R.id.iv_currency_flag);
 
             this.myCustomEditorActionListener = new customEditorActionListener(numToConvert);
             numToConvert.setOnEditorActionListener(myCustomEditorActionListener);
