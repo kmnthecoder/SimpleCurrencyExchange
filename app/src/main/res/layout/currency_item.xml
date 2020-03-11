@@ -63,10 +63,11 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
 
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_currency_flag"
-            android:layout_width="@dimen/cv_height"
-            android:layout_height="@dimen/cv_height"
+            android:layout_width="@dimen/flag_height"
+            android:layout_height="@dimen/flag_height"
             android:paddingLeft="@dimen/std_margin"
             android:paddingRight="@dimen/std_margin"
             android:src="@mipmap/ic_launcher_round"
@@ -75,6 +76,8 @@
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
+
+
 
         <TextView
             android:id="@+id/tv_currency_compare"

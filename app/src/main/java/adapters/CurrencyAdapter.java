@@ -66,7 +66,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 + " " + mCurrencyList.get(0).getCurrencyCode());
         holder.numToConvert.setText(Double.toString(mCurrent.getCurrencyVal()));
 
-        holder.currencyFlag.setImageResource(R.drawable.cad_flag);
+        holder.currencyFlag.setImageResource(R.drawable.flag);
         //holder.currencyFlag.setImageResource();
 
         changeCurrencyLook(holder, position);
@@ -109,8 +109,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         private final CurrencyAdapter mAdapter;
         private final EditText numToConvert;
 
-        //private final CircleImageView currencyFlag;
-        private final ImageView currencyFlag;
+        private final CircleImageView currencyFlag;
+        //private final ImageView currencyFlag;
 
         private customEditorActionListener myCustomEditorActionListener;
 
