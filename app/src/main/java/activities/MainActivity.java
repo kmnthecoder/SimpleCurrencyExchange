@@ -26,6 +26,7 @@ import com.lotex.android.currencyexchange.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Objects;
 
 import adapters.CurrencyAdapter;
@@ -39,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CurrencyAdapter mAdapter;
     private FloatingActionButton fab;
     private static MainActivity mContext;
+
+    private HashMap<String, Integer> flags = new HashMap<String, Integer>()
+    {{
+        put("USD", R.drawable.usd_flag);
+    }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

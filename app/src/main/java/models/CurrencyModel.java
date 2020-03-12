@@ -2,16 +2,20 @@ package models;
 
 import android.widget.ImageView;
 
+import androidx.core.graphics.drawable.IconCompat;
+
+import com.lotex.android.currencyexchange.R;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
 public class CurrencyModel {
 
-    private String mCurrencyName, mCurrencyCode, mCurrencySign;
+    private String mCurrencyName, mCurrencyCode, mCurrencySign, mFlagName;
     private double mCurrencyVal, mExchangeRate;
 
-    private ImageView mFlag;
+    private int mFlag;
 
     public CurrencyModel(double mCurrencyVal, double mExchangeRate,
                          String mCurrencyCode, String mCurrencyName) {
@@ -28,6 +32,9 @@ public class CurrencyModel {
         this.mCurrencyCode = mCurrencyCode;
         this.mCurrencyName = mCurrencyName;
         this.mCurrencySign = mCurrencySign;
+        this.mFlagName = this.mCurrencyCode.toLowerCase() + "_flag";
+
+        //this.mFlag = getResources().getIdentifier(mFlagName, "drawable", getPackageName());
     }
 
     public double getCurrencyVal() {
@@ -92,5 +99,13 @@ public class CurrencyModel {
         } else {
             return round(homeValue / mExchangeRate, 2);
         }
+    }
+
+    public String getFlagName() {
+        return mFlagName;
+    }
+
+    public void setFlagName(String mFlagName) {
+        this.mFlagName = mFlagName;
     }
 }

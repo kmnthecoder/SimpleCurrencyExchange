@@ -2,16 +2,13 @@ package adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -66,7 +63,13 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 + " " + mCurrencyList.get(0).getCurrencyCode());
         holder.numToConvert.setText(Double.toString(mCurrent.getCurrencyVal()));
 
-        holder.currencyFlag.setImageResource(R.drawable.flag);
+        //holder.currencyFlag.setImageResource(R.drawable.usd_flag);
+
+        holder.currencyFlag.setImageResource(MainActivity.getContext().getResources().getIdentifier(
+                holder.mAdapter.mCurrencyList.get(position).getFlagName(),
+                "drawable",
+                MainActivity.getContext().getPackageName()));
+
         //holder.currencyFlag.setImageResource();
 
         changeCurrencyLook(holder, position);
@@ -79,6 +82,16 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
     // Changes currency look depending on if it is home currency or not
     public void changeCurrencyLook(CurrencyViewHolder holder, int position) {
+
+        /*
+        if (!holder.mAdapter.mCurrencyList.get(position).getVisibility()) {
+            holder.itemView.setVisibility(View.GONE);
+        } else {
+            holder.itemView.setVisibility(View.VISIBLE);
+        }
+
+         */
+
         if (position == 0) {
             holder.currencyItem.setCardBackgroundColor(Color.BLUE);
             holder.currencyCode.setTextColor(Color.WHITE);

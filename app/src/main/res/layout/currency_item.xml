@@ -66,8 +66,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_currency_flag"
-            android:layout_width="@dimen/flag_height"
-            android:layout_height="@dimen/flag_height"
+            android:layout_width="@dimen/flag_size"
+            android:layout_height="@dimen/flag_size"
             android:paddingLeft="@dimen/std_margin"
             android:paddingRight="@dimen/std_margin"
             android:src="@mipmap/ic_launcher_round"
