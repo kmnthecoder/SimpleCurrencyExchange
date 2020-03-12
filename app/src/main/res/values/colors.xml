@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorPrimaryLight">#B2EBF2</color>
+    <color name="colorPrimary">#0097A7</color>
+    <!--<color name="colorPrimary">#00BCD4</color> -->
+
+    <color name="colorTextIcons">#FFFFFF</color>
+    <color name="colorAccent">#FF5252</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorDivider">#BDBDBD</color>
+
     <color name="currency_background_default">#FFFFFF</color>
+    <color name="home_currency">#3F51B5</color>
+
 </resources>

@@ -63,14 +63,10 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 + " " + mCurrencyList.get(0).getCurrencyCode());
         holder.numToConvert.setText(Double.toString(mCurrent.getCurrencyVal()));
 
-        //holder.currencyFlag.setImageResource(R.drawable.usd_flag);
-
         holder.currencyFlag.setImageResource(MainActivity.getContext().getResources().getIdentifier(
                 holder.mAdapter.mCurrencyList.get(position).getFlagName(),
                 "drawable",
                 MainActivity.getContext().getPackageName()));
-
-        //holder.currencyFlag.setImageResource();
 
         changeCurrencyLook(holder, position);
     }
@@ -93,7 +89,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
          */
 
         if (position == 0) {
-            holder.currencyItem.setCardBackgroundColor(Color.BLUE);
+            holder.currencyItem.setCardBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.home_currency));
             holder.currencyCode.setTextColor(Color.WHITE);
             holder.currencyName.setTextColor(Color.WHITE);
             holder.converted.setTextColor(Color.WHITE);
@@ -105,7 +101,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         } else {
             holder.currencyItem.setCardBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.currency_background_default));
             holder.currencyCode.setTextColor(Color.BLACK);
-            holder.currencyName.setTextColor(Color.parseColor("#585858"));
+            holder.currencyName.setTextColor(ContextCompat.getColor(MainActivity.getContext(), R.color.colorSecondaryText));
             holder.converted.setTextColor(Color.BLACK);
             holder.numToConvert.setTextColor(Color.BLACK);
             holder.converted.setVisibility(View.VISIBLE);
@@ -121,9 +117,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         private final CardView currencyItem;
         private final CurrencyAdapter mAdapter;
         private final EditText numToConvert;
-
         private final CircleImageView currencyFlag;
-        //private final ImageView currencyFlag;
 
         private customEditorActionListener myCustomEditorActionListener;
 

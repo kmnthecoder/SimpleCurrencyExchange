@@ -1,11 +1,5 @@
 package models;
 
-import android.widget.ImageView;
-
-import androidx.core.graphics.drawable.IconCompat;
-
-import com.lotex.android.currencyexchange.R;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
@@ -33,8 +27,6 @@ public class CurrencyModel {
         this.mCurrencyName = mCurrencyName;
         this.mCurrencySign = mCurrencySign;
         this.mFlagName = this.mCurrencyCode.toLowerCase() + "_flag";
-
-        //this.mFlag = getResources().getIdentifier(mFlagName, "drawable", getPackageName());
     }
 
     public double getCurrencyVal() {
