@@ -1,13 +1,21 @@
 package models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
 public class CurrencyModel {
 
-    private String mCurrencyName, mCurrencyCode, mCurrencySign, mFlagName;
-    private double mCurrencyVal, mExchangeRate;
+    private String mCurrencyName, mCurrencySign, mFlagName;
+    private double mCurrencyVal;
+
+    //@SerializedName("")
+    private String mCurrencyCode;
+
+
+    private double mExchangeRate;
 
     private int mFlag;
 

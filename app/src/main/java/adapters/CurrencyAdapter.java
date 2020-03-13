@@ -61,7 +61,10 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         holder.currencyCompare.setText(1 + " " + mCurrent.getCurrencyCode() + " = " +
                 String.format("%.2f", mCurrent.compareAmount(mCurrencyList.get(0).getCurrencyCode(), mCurrencyList.get(0).getExchangeRate()))
                 + " " + mCurrencyList.get(0).getCurrencyCode());
-        holder.numToConvert.setText(Double.toString(mCurrent.getCurrencyVal()));
+
+        //holder.numToConvert.setText(String.format("%.2f", Double.toString(mCurrent.getCurrencyVal())));
+
+        holder.numToConvert.setText(String.format("%.2f", mCurrent.getCurrencyVal()));
 
         holder.currencyFlag.setImageResource(MainActivity.getContext().getResources().getIdentifier(
                 holder.mAdapter.mCurrencyList.get(position).getFlagName(),
