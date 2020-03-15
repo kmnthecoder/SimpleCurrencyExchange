@@ -1,5 +1,6 @@
 package com.lotex.android.currencyexchange;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class Currency {
 
     @PrimaryKey
+    @NonNull
     private String currencyCode;
 
     private String currencyName, currencySign, mFlagName;
@@ -123,5 +125,13 @@ public class Currency {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }
