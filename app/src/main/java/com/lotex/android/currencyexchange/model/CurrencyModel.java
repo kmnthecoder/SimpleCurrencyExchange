@@ -1,6 +1,4 @@
-package models;
-
-import com.google.gson.annotations.SerializedName;
+package com.lotex.android.currencyexchange.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,7 +9,6 @@ public class CurrencyModel {
     private String mCurrencyName, mCurrencySign, mFlagName;
     private double mCurrencyVal;
 
-    //@SerializedName("")
     private String mCurrencyCode;
 
 

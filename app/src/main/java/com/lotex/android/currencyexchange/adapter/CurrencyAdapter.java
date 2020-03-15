@@ -1,4 +1,4 @@
-package adapters;
+package com.lotex.android.currencyexchange.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,13 +16,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lotex.android.currencyexchange.R;
+import com.lotex.android.currencyexchange.model.CurrencyModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import activities.MainActivity;
+import com.lotex.android.currencyexchange.activity.MainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
-import models.CurrencyModel;
 
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder> {
 
