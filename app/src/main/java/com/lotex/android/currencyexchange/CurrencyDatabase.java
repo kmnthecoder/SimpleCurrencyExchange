@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.lotex.android.currencyexchange.model.CurrencyModel;
 
-@Database(entities = {Currency.class}, version = 1)
+@Database(entities = {Currency.class}, version = 1, exportSchema = false)
 public abstract class CurrencyDatabase extends RoomDatabase {
 
     private static CurrencyDatabase instance;
@@ -46,11 +46,14 @@ public abstract class CurrencyDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+
             currencyDao.insert(new Currency(0.0, 1.537144,
                     "CAD", "Canadian Dollar", "$", 1));
 
             currencyDao.insert(new Currency(0.0, 1.134985,
                     "USD", "US Dollar", "$", 0));
+
 
             currencyDao.insert(new Currency(0.0, 1,
                     "EUR", "Euro", "€", 0));
@@ -66,6 +69,11 @@ public abstract class CurrencyDatabase extends RoomDatabase {
 
             currencyDao.insert(new Currency(0.0, 7.867599,
                     "CNY", "Chinese Yuan", "¥", 0));
+
+            for (int i = 1; i < 20; i++) {
+                currencyDao.insert(new Currency(0.0, Double.valueOf(i), "cCode " + i,
+                        "cName " + i, "$", 0));
+            }
 
             return null;
         }

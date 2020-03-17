@@ -2,6 +2,7 @@ package com.lotex.android.currencyexchange.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Layout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,26 +16,31 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lotex.android.currencyexchange.Currency;
 import com.lotex.android.currencyexchange.R;
 import com.lotex.android.currencyexchange.model.CurrencyModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.lotex.android.currencyexchange.activity.MainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder> {
 
-    private final ArrayList<CurrencyModel> mCurrencyList;
-    private LayoutInflater mInflater;
+    private List<Currency> mCurrencyList = new ArrayList<>();
+    //private LayoutInflater mInflater;
     private RecyclerView mRecyclerView;
     private static final String LOG_TAG = "CurrencyAdapter";
 
-    public CurrencyAdapter(Context context, ArrayList<CurrencyModel> mCurrencyList) {
-        mInflater = LayoutInflater.from(context);
+    /*
+    public CurrencyAdapter(Context context, ArrayList<Currency> mCurrencyList) {
+        //mInflater = LayoutInflater.from(context);
         this.mCurrencyList = mCurrencyList;
     }
+
+     */
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -45,13 +51,15 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     @NonNull
     @Override
     public CurrencyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mItemView = mInflater.inflate(R.layout.currency_item, parent, false);
-        return new CurrencyViewHolder(mItemView, this);
+        //View mItemView = mInflater.inflate(R.layout.currency_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.currency_item, parent, false);
+        return new CurrencyViewHolder(itemView, this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final CurrencyViewHolder holder, int position) {
-        final CurrencyModel mCurrent = mCurrencyList.get(position);
+        Currency mCurrent = mCurrencyList.get(position);
         // Set hardcoded currency codes
         holder.currencyCode.setText(mCurrent.getCurrencyCode());
         holder.currencyName.setText(mCurrent.getCurrencyName());
@@ -77,6 +85,15 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     @Override
     public int getItemCount() {
         return mCurrencyList.size();
+    }
+
+    public void setCurrency(List<Currency> currency) {
+        this.mCurrencyList = currency;
+        notifyDataSetChanged();
+    }
+
+    public Currency getCurrencyAt(int position) {
+        return mCurrencyList.get(position);
     }
 
     // Changes currency look depending on if it is home currency or not
