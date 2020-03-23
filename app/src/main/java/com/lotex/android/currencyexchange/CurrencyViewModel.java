@@ -22,7 +22,7 @@ public class CurrencyViewModel extends AndroidViewModel {
         repository.insert(currency);
     }
 
-    public void update(Currency currency) {
+    public void update(Currency... currency) {
         repository.update(currency);
     }
 

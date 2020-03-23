@@ -21,21 +21,6 @@ public class Currency {
     private int flag;
     private int priority;
 
-
-
-
-
-/*
-    public Currency(double currencyVal, double exchangeRate,
-                         String currencyCode, String currencyName) {
-        this.currencyVal = currencyVal;
-        this.exchangeRate = exchangeRate;
-        this.currencyCode = currencyCode;
-        this.currencyName = currencyName;
-    }
-
- */
-
     public Currency(double currencyVal, double exchangeRate,
                          String currencyCode, String currencyName, String currencySign, int priority) {
         this.currencyVal = currencyVal;
@@ -43,6 +28,17 @@ public class Currency {
         this.currencyCode = currencyCode;
         this.currencyName = currencyName;
         this.currencySign = currencySign;
+        this.mFlagName = this.currencyCode.toLowerCase() + "_flag";
+        this.priority = priority;
+    }
+
+    // copy constructor to set priorities
+    public Currency(Currency currency, int priority) {
+        this.currencyVal = currency.currencyVal;
+        this.exchangeRate = currency.exchangeRate;
+        this.currencyCode = currency.currencyCode;
+        this.currencyName = currency.currencyName;
+        this.currencySign = currency.currencySign;
         this.mFlagName = this.currencyCode.toLowerCase() + "_flag";
         this.priority = priority;
     }

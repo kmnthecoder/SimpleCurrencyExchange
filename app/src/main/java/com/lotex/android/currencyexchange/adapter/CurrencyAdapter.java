@@ -1,8 +1,6 @@
 package com.lotex.android.currencyexchange.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.text.Layout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,29 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lotex.android.currencyexchange.Currency;
 import com.lotex.android.currencyexchange.R;
-import com.lotex.android.currencyexchange.model.CurrencyModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.lotex.android.currencyexchange.activity.MainActivity;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder> {
 
     private List<Currency> mCurrencyList = new ArrayList<>();
-    //private LayoutInflater mInflater;
+    private OnItemClickListener listener;
     private RecyclerView mRecyclerView;
     private static final String LOG_TAG = "CurrencyAdapter";
-
-    /*
-    public CurrencyAdapter(Context context, ArrayList<Currency> mCurrencyList) {
-        //mInflater = LayoutInflater.from(context);
-        this.mCurrencyList = mCurrencyList;
-    }
-
-     */
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -51,7 +40,6 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     @NonNull
     @Override
     public CurrencyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View mItemView = mInflater.inflate(R.layout.currency_item, parent, false);
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.currency_item, parent, false);
         return new CurrencyViewHolder(itemView, this);
@@ -98,16 +86,6 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
     // Changes currency look depending on if it is home currency or not
     public void changeCurrencyLook(CurrencyViewHolder holder, int position) {
-
-        /*
-        if (!holder.mAdapter.mCurrencyList.get(position).getVisibility()) {
-            holder.itemView.setVisibility(View.GONE);
-        } else {
-            holder.itemView.setVisibility(View.VISIBLE);
-        }
-
-         */
-
         if (position == 0) {
             holder.currencyItem.setCardBackgroundColor(ContextCompat.getColor(MainActivity.getContext(), R.color.home_currency));
             holder.currencyCode.setTextColor(Color.WHITE);
@@ -131,7 +109,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         }
     }
 
-    class CurrencyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class CurrencyViewHolder extends RecyclerView.ViewHolder /*implements View.OnClickListener */ {
 
         private final TextView currencyCode, currencyName, converted, currencyCompare, currencySign;
         private final CardView currencyItem;
@@ -143,7 +121,6 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
         public CurrencyViewHolder(final View itemView, CurrencyAdapter adapter) {
             super(itemView);
-            itemView.setOnClickListener(this);
 
             currencyName = itemView.findViewById(R.id.tv_currency_name);
             currencyCode = itemView.findViewById(R.id.tv_currency_code);
@@ -158,17 +135,25 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
             numToConvert.setOnEditorActionListener(myCustomEditorActionListener);
 
             this.mAdapter = adapter;
-        }
 
-        @Override
-        public void onClick(View v) { // Change home currency if clicked on
-            int position = getLayoutPosition();
-            if (position != 0) {
-                mRecyclerView.smoothScrollToPosition(0);
-                Collections.swap(mCurrencyList, position, 0);
-                mAdapter.notifyItemRangeChanged(0, mAdapter.mCurrencyList.size());
-            }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION && position != 0) {
+                        listener.onItemClick(mCurrencyList.get(position), position);
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Currency currency, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     private class customEditorActionListener implements TextView.OnEditorActionListener {

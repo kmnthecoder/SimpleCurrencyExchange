@@ -16,7 +16,7 @@ public interface CurrencyDao {
     void insert(Currency currency);
 
     @Update
-    void update(Currency currency);
+    void update(Currency... currency);
 
     @Delete
     void delete(Currency currency);
@@ -24,6 +24,6 @@ public interface CurrencyDao {
     @Query("DELETE FROM currency_table")
     void deleteAllCurrency();
 
-    @Query("SELECT * FROM currency_table ORDER BY priority DESC")
+    @Query("SELECT * FROM currency_table ORDER BY priority ASC")
     LiveData<List<Currency>> getAllCurrency();
 }

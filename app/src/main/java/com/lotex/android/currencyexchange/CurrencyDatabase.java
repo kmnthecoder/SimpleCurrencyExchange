@@ -47,32 +47,31 @@ public abstract class CurrencyDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
 
-
             currencyDao.insert(new Currency(0.0, 1.537144,
-                    "CAD", "Canadian Dollar", "$", 1));
+                    "CAD", "Canadian Dollar", "$", 0));
 
             currencyDao.insert(new Currency(0.0, 1.134985,
-                    "USD", "US Dollar", "$", 0));
+                    "USD", "US Dollar", "$", 1));
 
 
             currencyDao.insert(new Currency(0.0, 1,
-                    "EUR", "Euro", "€", 0));
+                    "EUR", "Euro", "€", 2));
 
             currencyDao.insert(new Currency(0.0, 23.355529,
-                    "MXN", "Mexican Peso", "$", 0));
+                    "MXN", "Mexican Peso", "$", 3));
 
             currencyDao.insert(new Currency(0.0, 26337.8948,
-                    "VND", "Vietnamese Dong", "₫", 0));
+                    "VND", "Vietnamese Dong", "₫", 4));
 
             currencyDao.insert(new Currency(0.0, 118.324426,
-                    "JPY", "Japanese Yen", "¥", 0));
+                    "JPY", "Japanese Yen", "¥", 5));
 
             currencyDao.insert(new Currency(0.0, 7.867599,
-                    "CNY", "Chinese Yuan", "¥", 0));
+                    "CNY", "Chinese Yuan", "¥", 6));
 
-            for (int i = 1; i < 20; i++) {
+            for (int i = 7; i < 20; i++) {
                 currencyDao.insert(new Currency(0.0, Double.valueOf(i), "cCode " + i,
-                        "cName " + i, "$", 0));
+                        "cName " + i, "$", i));
             }
 
             return null;

@@ -23,7 +23,7 @@ public class CurrencyRepository {
         new InsertCurrencyAsyncTask(currencyDao).execute(currency);
     }
 
-    public void update(Currency currency) {
+    public void update(Currency... currency) {
         new UpdateCurrencyAsyncTask(currencyDao).execute(currency);
     }
 
@@ -62,7 +62,11 @@ public class CurrencyRepository {
 
         @Override
         protected Void doInBackground(Currency... currencies) {
-            currencyDao.update(currencies[0]);
+
+            for (int i = 0; i < currencies.length; i++) {
+                currencyDao.update(currencies[i]);
+            }
+
             return null;
         }
     }
