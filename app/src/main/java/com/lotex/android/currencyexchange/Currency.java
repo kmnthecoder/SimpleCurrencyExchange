@@ -18,7 +18,7 @@ public class Currency {
     private String currencyName, currencySign, mFlagName;
     private double currencyVal;
     private double exchangeRate;
-    private int flag;
+    //private int flag;
     private int priority;
 
     public Currency(double currencyVal, double exchangeRate,
@@ -123,6 +123,7 @@ public class Currency {
         this.priority = priority;
     }
 
+    /*
     public int getFlag() {
         return flag;
     }
@@ -130,4 +131,6 @@ public class Currency {
     public void setFlag(int flag) {
         this.flag = flag;
     }
+
+     */
 }

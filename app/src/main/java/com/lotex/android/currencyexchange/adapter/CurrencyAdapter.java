@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lotex.android.currencyexchange.Currency;
@@ -24,12 +26,37 @@ import com.lotex.android.currencyexchange.activity.MainActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder> {
+public class CurrencyAdapter extends ListAdapter<Currency, CurrencyAdapter.CurrencyViewHolder> {
 
-    private List<Currency> mCurrencyList = new ArrayList<>();
+    //private List<Currency> mCurrencyList = new ArrayList<>();
     private OnItemClickListener listener;
     private RecyclerView mRecyclerView;
-    private static final String LOG_TAG = "CurrencyAdapter";
+    private static final String LOG_TAG = "CurrencyAdapterLog";
+
+    public CurrencyAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<Currency> DIFF_CALLBACK = new DiffUtil.ItemCallback<Currency>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Currency oldItem, @NonNull Currency newItem) {
+
+            return oldItem.getCurrencyCode().equals(newItem.getCurrencyCode());
+            //return false;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Currency oldItem, @NonNull Currency newItem) {
+            //return false;
+            return //oldItem.getPriority() == newItem.getPriority() &&
+                    oldItem.getCurrencyName().equals(newItem.getCurrencyName()) &&
+                    oldItem.getCurrencySign().equals(newItem.getCurrencySign()) &&
+                    oldItem.getCurrencyVal() == newItem.getCurrencyVal() &&
+                    oldItem.getExchangeRate() == newItem.getExchangeRate() &&
+                    oldItem.getFlagName().equals(newItem.getFlagName()) &&
+                    oldItem.getCurrencyCode().equals(newItem.getCurrencyCode());
+        }
+    };
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -47,7 +74,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
 
     @Override
     public void onBindViewHolder(@NonNull final CurrencyViewHolder holder, int position) {
-        Currency mCurrent = mCurrencyList.get(position);
+        Currency mCurrent = getItem(position);
         // Set hardcoded currency codes
         holder.currencyCode.setText(mCurrent.getCurrencyCode());
         holder.currencyName.setText(mCurrent.getCurrencyName());
@@ -55,33 +82,39 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 String.format("%.2f", mCurrent.getCurrencyVal()));
         holder.currencySign.setText(mCurrent.getCurrencySign());
         holder.currencyCompare.setText(1 + " " + mCurrent.getCurrencyCode() + " = " +
-                String.format("%.2f", mCurrent.compareAmount(mCurrencyList.get(0).getCurrencyCode(), mCurrencyList.get(0).getExchangeRate()))
-                + " " + mCurrencyList.get(0).getCurrencyCode());
+                String.format("%.2f", mCurrent.compareAmount(getItem(0).getCurrencyCode(), getItem(0).getExchangeRate()))
+                + " " + getItem(0).getCurrencyCode());
 
         //holder.numToConvert.setText(String.format("%.2f", Double.toString(mCurrent.getCurrencyVal())));
 
         holder.numToConvert.setText(String.format("%.2f", mCurrent.getCurrencyVal()));
 
         holder.currencyFlag.setImageResource(MainActivity.getContext().getResources().getIdentifier(
-                holder.mAdapter.mCurrencyList.get(position).getFlagName(),
+                holder.mAdapter.getItem(position).getFlagName(),
                 "drawable",
                 MainActivity.getContext().getPackageName()));
 
         changeCurrencyLook(holder, position);
     }
-
+/*
     @Override
     public int getItemCount() {
         return mCurrencyList.size();
     }
 
+ */
+
+
+/*
     public void setCurrency(List<Currency> currency) {
         this.mCurrencyList = currency;
         notifyDataSetChanged();
     }
 
+ */
+
     public Currency getCurrencyAt(int position) {
-        return mCurrencyList.get(position);
+        return getItem(position);
     }
 
     // Changes currency look depending on if it is home currency or not
@@ -141,7 +174,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION && position != 0) {
-                        listener.onItemClick(mCurrencyList.get(position), position);
+                        listener.onItemClick(getItem(position), position);
                     }
                 }
             });
@@ -161,6 +194,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         private String homeCode;
         private double homeValue, amount;
         private EditText s;
+        //private int s = getCurrentList().
 
         private customEditorActionListener(EditText s) {
             this.s = s;
@@ -170,18 +204,18 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                homeCode = mCurrencyList.get(0).getCurrencyCode();
-                homeValue = mCurrencyList.get(0).getExchangeRate();
+                homeCode = getItem(0).getCurrencyCode();
+                homeValue = getItem(0).getExchangeRate();
 
                 if (!s.getText().toString().equals("")) {
                     amount = Double.valueOf(s.getText().toString());
-                    mCurrencyList.get(0).setCurrencyVal(Double.valueOf(s.getText().toString()));
-                    for (int i = 1; i < mCurrencyList.size(); i++) {
-                        mCurrencyList.get(i).setCurrencyVal(mCurrencyList.get(i).convertAmount(homeCode, homeValue, amount));
+                    getItem(0).setCurrencyVal(Double.valueOf(s.getText().toString()));
+                    for (int i = 1; i < getCurrentList().size(); i++) {
+                        getItem(i).setCurrencyVal(getItem(i).convertAmount(homeCode, homeValue, amount));
                     }
                 } else {
-                    for (int i = 1; i < mCurrencyList.size(); i++) {
-                        mCurrencyList.get(i).setCurrencyVal(0.0);
+                    for (int i = 1; i < getCurrentList().size(); i++) {
+                        getItem(i).setCurrencyVal(0.0);
                     }
                 }
 
@@ -191,4 +225,4 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
         }
     }
 
-} // end of class
+    } // end of class

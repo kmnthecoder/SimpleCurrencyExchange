@@ -53,14 +53,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onChanged(List<Currency> currency) {
                 // update RecyclerView
-                Log.d(LOG_TAG, "onChanged");
-                mAdapter.setCurrency(currency);
+                //Log.d(LOG_TAG, "onChanged");
+                //mAdapter.setCurrency(currency);
+                //mAdapter.
+                mAdapter.submitList(currency);
+                //mRecyclerView.smoothScrollToPosition(0);
 
                 // testing
+                /*
                 for (int i = 0; i < mAdapter.getItemCount(); i++) {
                     Log.d(LOG_TAG, "Currency: " + mAdapter.getCurrencyAt(i).getCurrencyCode()
                             + " || Priority: " + mAdapter.getCurrencyAt(i).getPriority() + "\n");
                 }
+
+                 */
 
             }
         });
@@ -115,10 +121,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter.setOnItemClickListener(new CurrencyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Currency currency, int position) {
-                mRecyclerView.smoothScrollToPosition(0);
+                //mAdapter.notifyDataSetChanged();
+                //mRecyclerView.smoothScrollToPosition(0);
                 Currency tempHome = new Currency(mAdapter.getCurrencyAt(0), position);
                 Currency tempFrom = new Currency(mAdapter.getCurrencyAt(position), 0);
+
                 currencyViewModel.update(tempFrom, tempHome);
+
+
+
+                mAdapter.submitList(null);
+
+                mRecyclerView.smoothScrollToPosition(0);
+                //mRecyclerView.scrollToPosition(0);
+
+                //mRecyclerView.post(mRecyclerView.smoothScrollToPosition(0));
 
                 /*
                 for (int i = 0; i < 6; i++) {
