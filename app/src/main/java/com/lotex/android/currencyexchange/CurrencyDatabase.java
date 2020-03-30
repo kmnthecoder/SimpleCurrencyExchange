@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.lotex.android.currencyexchange.model.CurrencyModel;
 
-@Database(entities = {Currency.class}, version = 1, exportSchema = false)
+@Database(entities = {Currency.class}, version=2, exportSchema = false)
 public abstract class CurrencyDatabase extends RoomDatabase {
 
     private static CurrencyDatabase instance;

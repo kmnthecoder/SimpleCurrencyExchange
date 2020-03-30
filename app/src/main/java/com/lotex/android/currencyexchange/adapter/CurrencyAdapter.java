@@ -21,6 +21,7 @@ import com.lotex.android.currencyexchange.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.lotex.android.currencyexchange.activity.MainActivity;
 
@@ -28,7 +29,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CurrencyAdapter extends ListAdapter<Currency, CurrencyAdapter.CurrencyViewHolder> {
 
-    //private List<Currency> mCurrencyList = new ArrayList<>();
     private OnItemClickListener listener;
     private RecyclerView mRecyclerView;
     private static final String LOG_TAG = "CurrencyAdapterLog";
@@ -40,14 +40,11 @@ public class CurrencyAdapter extends ListAdapter<Currency, CurrencyAdapter.Curre
     private static final DiffUtil.ItemCallback<Currency> DIFF_CALLBACK = new DiffUtil.ItemCallback<Currency>() {
         @Override
         public boolean areItemsTheSame(@NonNull Currency oldItem, @NonNull Currency newItem) {
-
             return oldItem.getCurrencyCode().equals(newItem.getCurrencyCode());
-            //return false;
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Currency oldItem, @NonNull Currency newItem) {
-            //return false;
             return //oldItem.getPriority() == newItem.getPriority() &&
                     oldItem.getCurrencyName().equals(newItem.getCurrencyName()) &&
                     oldItem.getCurrencySign().equals(newItem.getCurrencySign()) &&
@@ -85,8 +82,6 @@ public class CurrencyAdapter extends ListAdapter<Currency, CurrencyAdapter.Curre
                 String.format("%.2f", mCurrent.compareAmount(getItem(0).getCurrencyCode(), getItem(0).getExchangeRate()))
                 + " " + getItem(0).getCurrencyCode());
 
-        //holder.numToConvert.setText(String.format("%.2f", Double.toString(mCurrent.getCurrencyVal())));
-
         holder.numToConvert.setText(String.format("%.2f", mCurrent.getCurrencyVal()));
 
         holder.currencyFlag.setImageResource(MainActivity.getContext().getResources().getIdentifier(
@@ -96,22 +91,6 @@ public class CurrencyAdapter extends ListAdapter<Currency, CurrencyAdapter.Curre
 
         changeCurrencyLook(holder, position);
     }
-/*
-    @Override
-    public int getItemCount() {
-        return mCurrencyList.size();
-    }
-
- */
-
-
-/*
-    public void setCurrency(List<Currency> currency) {
-        this.mCurrencyList = currency;
-        notifyDataSetChanged();
-    }
-
- */
 
     public Currency getCurrencyAt(int position) {
         return getItem(position);
@@ -219,7 +198,7 @@ public class CurrencyAdapter extends ListAdapter<Currency, CurrencyAdapter.Curre
                     }
                 }
 
-                mRecyclerView.getAdapter().notifyDataSetChanged();
+                Objects.requireNonNull(mRecyclerView.getAdapter()).notifyDataSetChanged();
             }
             return handled;
         }
