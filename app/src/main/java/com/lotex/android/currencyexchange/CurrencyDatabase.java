@@ -47,32 +47,49 @@ public abstract class CurrencyDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            currencyDao.insert(new Currency(0.0, 1.537144,
+            currencyDao.insert(new Currency(0.0, 1.54887,
                     "CAD", "Canadian Dollar", "$", 0));
 
-            currencyDao.insert(new Currency(0.0, 1.134985,
+            currencyDao.insert(new Currency(0.0, 1.15279,
                     "USD", "US Dollar", "$", 1));
-
 
             currencyDao.insert(new Currency(0.0, 1,
                     "EUR", "Euro", "€", 2));
 
-            currencyDao.insert(new Currency(0.0, 23.355529,
+            currencyDao.insert(new Currency(0.0, 25.7162,
                     "MXN", "Mexican Peso", "$", 3));
 
-            currencyDao.insert(new Currency(0.0, 26337.8948,
+            currencyDao.insert(new Currency(0.0, 26791.37,
                     "VND", "Vietnamese Dong", "₫", 4));
 
-            currencyDao.insert(new Currency(0.0, 118.324426,
+            currencyDao.insert(new Currency(0.0, 123.038,
                     "JPY", "Japanese Yen", "¥", 5));
 
-            currencyDao.insert(new Currency(0.0, 7.867599,
+            currencyDao.insert(new Currency(0.0, 8.04765,
                     "CNY", "Chinese Yuan", "¥", 6));
 
+            currencyDao.insert(new Currency(0.0, 0.904480,
+                    "GBP", "British Pound", "£", 7));
+
+            currencyDao.insert(new Currency(0.0, 1.61806,
+                    "AUD", "Australian Dollar", "$", 8));
+
+            currencyDao.insert(new Currency(0.0, 1.07524,
+                    "CHF", "Swiss Franc", "CHf", 9));
+
+            currencyDao.insert(new Currency(0.0, 8.93630,
+                    "HKD", "Hong Kong Dollar", "$", 10));
+
+            currencyDao.insert(new Currency(0.0, 1.73678,
+                    "NZD", "New Zealand Dollar", "$", 11));
+
+            /*
             for (int i = 7; i < 20; i++) {
                 currencyDao.insert(new Currency(0.0, Double.valueOf(i), "cCode " + i,
                         "cName " + i, "$", i));
             }
+
+             */
 
             return null;
         }

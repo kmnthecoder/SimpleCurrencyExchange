@@ -55,11 +55,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mAdapter.submitList(currency);
 
                 // testing
+                /*
                 for (int i = 0; i < mAdapter.getItemCount(); i++) {
                     Log.d(LOG_TAG, "Currency: " + mAdapter.getCurrencyAt(i).getCurrencyCode()
                             + " || Priority: " + mAdapter.getCurrencyAt(i).getPriority() + "\n");
                 }
-
+                 */
             }
         });
 
