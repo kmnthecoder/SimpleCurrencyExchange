@@ -1,8 +1,8 @@
 # CurrencyExchange
 
-<img src="https://github.com/kmnthecoder/CurrencyExchange/blob/mvvm-convert/demo/currency_demo.gif" width="360" height="640">
+<img src="https://github.com/kmnthecoder/CurrencyExchange/blob/master/demo/currency_demo.gif" width="360" height="640">
 
-A currency exchange Android app. Uses MVVM architecture in the MVVM branch.
+A currency exchange Android app. Uses MVVM architecture.
 
 # Lessons learned / Final thoughts
 
