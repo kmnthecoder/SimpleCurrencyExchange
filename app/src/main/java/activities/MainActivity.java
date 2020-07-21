@@ -41,10 +41,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab;
     private static MainActivity mContext;
 
+    /*
     private HashMap<String, Integer> flags = new HashMap<String, Integer>()
     {{
         put("USD", R.drawable.usd_flag);
     }};
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_add:
-                Toast.makeText(MainActivity.this, "ccp", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -102,10 +104,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 "CNY", "Chinese Yuan", "¥"));
 
         // Put initial data into the word list.
+        /*
         for (int i = 1; i < 20; i++) {
             mCurrencyList.add(new CurrencyModel(0.0, Double.valueOf(i), "cCode " + i,
                     "cName " + i, "$"));
         }
+         */
     }
 
     public void listTouchHelper() {
