@@ -2,7 +2,7 @@
     <string name="app_name">CurrencyExchange</string>
     <string name="fab_description">Add Currency</string>
     <string name="app_title">Simple Currency Exchange</string>
-    <string name="placeholder_last_updated">Last Updated On: June 25 2060</string>
+    <string name="placeholder_last_updated">Last Updated On: July 21 2020</string>
     <string name="placeholder_currency_code">cCode</string>
     <string name="placeholder_currency_name">cName</string>
     <string name="placeholder_converted_currency">convertedCurrency</string>
